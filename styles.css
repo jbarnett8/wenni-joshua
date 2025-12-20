@@ -37,7 +37,7 @@ body {
 .bg {
   position: fixed;
   inset: 0;
-  background-image: url("./assets/IMG_0878.png");
+  background-image: url("./assets/background.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -442,7 +442,7 @@ body {
   width: 210px;
   margin: 18px auto 20px;
   border-radius: 999px;
-  background-image: url("./assets/DSCF9503.png");
+  background-image: url("./assets/center-photo.webp");
   background-size: cover;
   background-position: center;
   border: 6px solid rgba(255, 255, 255, 0.75);
