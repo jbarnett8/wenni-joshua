@@ -1,13 +1,17 @@
 :root {
   /* Wedding/invitation palette */
   --bg: #0b1020;
-  --card: rgba(255, 255, 255, 0.76);
-  --card-border: rgba(255, 255, 255, 0.55);
-  --text: rgba(17, 24, 39, 0.92);
-  --muted: rgba(17, 24, 39, 0.7);
-  --muted2: rgba(17, 24, 39, 0.62);
+  --card: rgba(9, 12, 20, 0.72);
+  --card-border: rgba(255, 255, 255, 0.18);
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.74);
+  --muted2: rgba(255, 255, 255, 0.64);
   --accent: #b4539a; /* rose/plum */
   --accent-2: #ec4899; /* pink */
+  --neon-pink: #ff3ea6;
+  --neon-cyan: #22d3ee;
+  --neon-yellow: #facc15;
+  --neon-green: #22c55e;
   --shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
   --radius: 26px;
 }
@@ -33,7 +37,7 @@ body {
 .bg {
   position: fixed;
   inset: 0;
-  background-image: url("./assets/background.jpg");
+  background-image: url("./assets/IMG_0878.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -51,6 +55,45 @@ body {
       rgba(255, 255, 255, 0.08)
     ),
     linear-gradient(180deg, rgba(11, 16, 32, 0.18), rgba(11, 16, 32, 0.62));
+}
+
+.bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Bokeh + sparkle overlay (no image assets) */
+  background:
+    radial-gradient(10px 10px at 12% 22%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 60%),
+    radial-gradient(6px 6px at 22% 42%, rgba(250, 204, 21, 0.35), rgba(250, 204, 21, 0) 62%),
+    radial-gradient(12px 12px at 34% 28%, rgba(255, 62, 166, 0.28), rgba(255, 62, 166, 0) 64%),
+    radial-gradient(8px 8px at 48% 38%, rgba(34, 211, 238, 0.22), rgba(34, 211, 238, 0) 62%),
+    radial-gradient(14px 14px at 60% 26%, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0) 66%),
+    radial-gradient(9px 9px at 72% 44%, rgba(250, 204, 21, 0.28), rgba(250, 204, 21, 0) 64%),
+    radial-gradient(12px 12px at 82% 30%, rgba(34, 211, 238, 0.18), rgba(34, 211, 238, 0) 66%),
+    radial-gradient(7px 7px at 90% 52%, rgba(255, 62, 166, 0.22), rgba(255, 62, 166, 0) 66%),
+
+    radial-gradient(10px 10px at 18% 72%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 66%),
+    radial-gradient(7px 7px at 32% 84%, rgba(34, 211, 238, 0.18), rgba(34, 211, 238, 0) 66%),
+    radial-gradient(11px 11px at 50% 78%, rgba(250, 204, 21, 0.22), rgba(250, 204, 21, 0) 66%),
+    radial-gradient(8px 8px at 64% 88%, rgba(255, 62, 166, 0.20), rgba(255, 62, 166, 0) 66%),
+    radial-gradient(12px 12px at 84% 80%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 66%);
+  mix-blend-mode: screen;
+  opacity: 0.75;
+  filter: blur(0.2px);
+  animation: bokeh-drift 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bokeh-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.62;
+  }
+  45% {
+    transform: translate3d(0, -6px, 0);
+    opacity: 0.8;
+  }
 }
 
 .wrap {
@@ -95,13 +138,152 @@ body {
   position: relative;
 }
 
+.string-lights {
+  position: absolute;
+  left: -28px;
+  right: -28px;
+  height: 74px;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px 18px;
+  z-index: 2;
+}
+
+.string-lights--top {
+  top: 6px;
+}
+
+.string-lights--bottom {
+  bottom: 6px;
+  align-items: flex-end;
+}
+
+.string-lights .wire {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 22px;
+  height: 10px;
+  /* continuous wire */
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.72), rgba(17, 24, 39, 0.35));
+  border-radius: 999px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+}
+
+.string-lights--bottom .wire {
+  top: auto;
+  bottom: 22px;
+}
+
+.bulb {
+  width: 22px;
+  height: 34px;
+  border-radius: 10px 10px 14px 14px;
+  position: relative;
+  margin: 0 6px;
+  opacity: 0.98;
+  transform-origin: 50% 0;
+  animation: bulb-swing 2.8s ease-in-out infinite;
+}
+
+.bulb::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 10px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.6));
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.15);
+}
+
+.bulb::after {
+  content: "";
+  position: absolute;
+  inset: -18px -18px -22px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 48%);
+  opacity: 0.55;
+  filter: blur(0.2px);
+}
+
+.bulb--red {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 35%),
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.18) 60%),
+    linear-gradient(180deg, #ff3b30, #ff7a70);
+  box-shadow: 0 0 18px rgba(255, 59, 48, 0.75), 0 0 46px rgba(255, 59, 48, 0.35);
+}
+
+.bulb--green {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 35%),
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.18) 60%),
+    linear-gradient(180deg, #22c55e, #86efac);
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.65), 0 0 46px rgba(34, 197, 94, 0.32);
+}
+
+.bulb--yellow {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 35%),
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.18) 60%),
+    linear-gradient(180deg, #facc15, #fde68a);
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.6), 0 0 46px rgba(250, 204, 21, 0.28);
+}
+
+.bulb--cyan {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 35%),
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.18) 60%),
+    linear-gradient(180deg, #22d3ee, #a5f3fc);
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.62), 0 0 46px rgba(34, 211, 238, 0.28);
+}
+
+.bulb--pink {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 35%),
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.18) 60%),
+    linear-gradient(180deg, #ff3ea6, #ff9ad1);
+  box-shadow: 0 0 18px rgba(255, 62, 166, 0.65), 0 0 46px rgba(255, 62, 166, 0.32);
+}
+
+.string-lights .bulb:nth-child(2n) {
+  animation-duration: 3.3s;
+  animation-delay: -0.8s;
+}
+
+.string-lights .bulb:nth-child(3n) {
+  animation-duration: 2.4s;
+  animation-delay: -1.2s;
+}
+
+.string-lights--bottom .bulb {
+  animation-direction: reverse;
+}
+
+@keyframes bulb-swing {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+    filter: brightness(1);
+  }
+  45% {
+    transform: rotate(2deg);
+    filter: brightness(1.15);
+  }
+  55% {
+    transform: rotate(-1deg);
+    filter: brightness(0.85);
+  }
+}
+
 .header {
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  margin-top: 22px;
 }
 
 .kicker {
-  margin: 0 0 10px;
+  margin: 14px 0 0;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   font-size: 12px;
@@ -110,33 +292,149 @@ body {
 
 .title {
   margin: 0;
-  font-family: Fraunces, ui-serif, Georgia, serif;
+  font-family: "Cormorant Garamond", ui-serif, Georgia, serif;
   font-weight: 600;
-  font-size: clamp(34px, 6vw, 52px);
+  font-size: clamp(42px, 8vw, 74px);
   letter-spacing: 0.01em;
-  color: rgba(17, 24, 39, 0.94);
+  position: relative;
+  display: inline-block;
+  padding: 6px 6px 10px;
+  border-radius: 18px;
+  /* no sign panel / black box */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.title .neon {
+  display: inline-block;
+  padding: 0 10px;
+  line-height: 1;
+  font-weight: 600;
+  /* neon tube shine */
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 10px currentColor,
+    0 0 22px color-mix(in oklab, currentColor 70%, white 30%),
+    0 0 46px color-mix(in oklab, currentColor 55%, white 20%);
+  animation: neon-flicker 2.6s infinite;
+}
+
+.title .neon:nth-child(1) {
+  animation-duration: 2.2s;
+}
+
+.title .neon:nth-child(2) {
+  animation-duration: 3.1s;
+  animation-delay: -1.2s;
+}
+
+.title .neon:nth-child(3) {
+  animation-duration: 2.8s;
+  animation-delay: -0.6s;
+}
+
+.neon-pink {
+  color: var(--neon-pink);
+}
+
+.neon-cyan {
+  color: var(--neon-cyan);
+}
+
+.neon-white {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, 0.95),
+    0 0 9px rgba(255, 255, 255, 0.55),
+    0 0 18px rgba(34, 211, 238, 0.25);
+}
+
+.title::before {
+  content: "";
+  position: absolute;
+  inset: -18px -22px -22px;
+  border-radius: 22px;
+  /* glow spill around the sign panel */
+  background:
+    radial-gradient(220px 120px at 20% 15%, rgba(255, 62, 166, 0.32), rgba(255, 62, 166, 0) 70%),
+    radial-gradient(220px 120px at 80% 15%, rgba(34, 211, 238, 0.28), rgba(34, 211, 238, 0) 70%),
+    radial-gradient(260px 160px at 50% 100%, rgba(250, 204, 21, 0.12), rgba(250, 204, 21, 0) 70%);
+  filter: blur(0.5px);
+  opacity: 0.95;
+  z-index: -1;
+}
+
+@keyframes neon-flicker {
+  0%,
+  100% {
+    filter: brightness(1.02) contrast(1.02);
+  }
+  8% {
+    filter: brightness(1.22) contrast(1.05);
+  }
+  9% {
+    filter: brightness(0.78) contrast(1.02);
+  }
+  11% {
+    filter: brightness(0.55) contrast(1.0);
+  }
+  12% {
+    filter: brightness(1.3) contrast(1.06);
+  }
+  18% {
+    filter: brightness(1.26) contrast(1.06);
+  }
+  22% {
+    filter: brightness(0.9) contrast(1.01);
+  }
+  36% {
+    filter: brightness(1.28) contrast(1.05);
+  }
+  37% {
+    filter: brightness(0.62) contrast(1.0);
+  }
+  38% {
+    filter: brightness(1.22) contrast(1.04);
+  }
+  55% {
+    filter: brightness(1.06) contrast(1.02);
+  }
+  56% {
+    filter: brightness(1.32) contrast(1.06);
+  }
+  58% {
+    filter: brightness(0.82) contrast(1.02);
+  }
+  78% {
+    filter: brightness(1.14) contrast(1.04);
+  }
+}
+
+@keyframes neon-lights {
+  0%,
+  100% {
+  opacity: 0.9;
+  transform: translateY(0) scale(1);
+  }
+  42% {
+  opacity: 1;
+  transform: translateY(-1px) scale(1.03);
+  }
+  70% {
+  opacity: 0.65;
+  transform: translateY(1px) scale(0.98);
+  }
 }
 
 .title::after {
   content: "";
   display: block;
-  width: 84px;
-  height: 1px;
+  width: 120px;
+  height: 2px;
   margin: 14px auto 0;
-  background: linear-gradient(
-    90deg,
-    rgba(180, 83, 154, 0),
-    rgba(180, 83, 154, 0.6),
-    rgba(180, 83, 154, 0)
-  );
-}
-
-.subkicker {
-  margin: 12px 0 0;
-  font-family: Fraunces, ui-serif, Georgia, serif;
-  font-weight: 400;
-  font-size: 18px;
-  color: rgba(17, 24, 39, 0.74);
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0), rgba(34, 211, 238, 0.55), rgba(255, 62, 166, 0.55), rgba(255, 62, 166, 0));
+  border-radius: 999px;
 }
 
 .photo {
@@ -144,7 +442,7 @@ body {
   width: 210px;
   margin: 18px auto 20px;
   border-radius: 999px;
-  background-image: url("./assets/center-photo.jpg");
+  background-image: url("./assets/DSCF9503.png");
   background-size: cover;
   background-position: center;
   border: 6px solid rgba(255, 255, 255, 0.75);
@@ -164,8 +462,8 @@ body {
   gap: 12px;
   padding: 12px 12px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid rgba(17, 24, 39, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .label {
@@ -184,22 +482,24 @@ body {
 .cta {
   display: grid;
   justify-items: center;
-  gap: 10px;
-  margin-top: 6px;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 10px 0 22px;
 }
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 18px;
+  padding: 14px 22px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.28);
   font-weight: 600;
   text-decoration: none;
-  min-width: 200px;
+  min-width: 240px;
+  letter-spacing: 0.02em;
   box-shadow: 0 14px 30px rgba(180, 83, 154, 0.22);
 }
 
@@ -212,21 +512,7 @@ body {
   transform: translateY(0);
 }
 
-.hint {
-  margin: 0;
-  text-align: center;
-  color: var(--muted2);
-  font-size: 12px;
-}
 
-.hint code {
-  font-size: 11px;
-  padding: 2px 6px;
-  border: 1px solid rgba(17, 24, 39, 0.16);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.6);
-  color: rgba(17, 24, 39, 0.9);
-}
 
 .footer {
   margin-top: 18px;
@@ -242,5 +528,16 @@ body {
   .detail {
     grid-template-columns: 1fr;
     gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title,
+  .title::before,
+  .title .neon,
+  .bg::before,
+  .bulb,
+  .string-lights {
+    animation: none;
   }
 }
