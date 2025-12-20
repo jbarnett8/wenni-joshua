@@ -1,12 +1,15 @@
 :root {
+  /* Wedding/invitation palette */
   --bg: #0b1020;
-  --card: rgba(17, 24, 39, 0.68);
-  --card-border: rgba(255, 255, 255, 0.18);
-  --text: rgba(255, 255, 255, 0.92);
-  --muted: rgba(255, 255, 255, 0.74);
-  --muted2: rgba(255, 255, 255, 0.6);
-  --shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
-  --radius: 22px;
+  --card: rgba(255, 255, 255, 0.76);
+  --card-border: rgba(255, 255, 255, 0.55);
+  --text: rgba(17, 24, 39, 0.92);
+  --muted: rgba(17, 24, 39, 0.7);
+  --muted2: rgba(17, 24, 39, 0.62);
+  --accent: #b4539a; /* rose/plum */
+  --accent-2: #ec4899; /* pink */
+  --shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+  --radius: 26px;
 }
 
 * {
@@ -24,7 +27,7 @@ body {
   background: var(--bg);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
     "Apple Color Emoji", "Segoe UI Emoji";
-  line-height: 1.35;
+  line-height: 1.45;
 }
 
 .bg {
@@ -41,12 +44,13 @@ body {
   content: "";
   position: absolute;
   inset: 0;
+  /* Soft overlay so photos still show through */
   background: radial-gradient(
-      1000px 700px at 50% 25%,
-      rgba(17, 24, 39, 0.35),
-      rgba(11, 16, 32, 0.82)
+      900px 600px at 50% 20%,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.08)
     ),
-    linear-gradient(180deg, rgba(11, 16, 32, 0.48), rgba(11, 16, 32, 0.86));
+    linear-gradient(180deg, rgba(11, 16, 32, 0.18), rgba(11, 16, 32, 0.62));
 }
 
 .wrap {
@@ -63,9 +67,32 @@ body {
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 26px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: radial-gradient(
+      700px 220px at 20% 0%,
+      rgba(236, 72, 153, 0.14),
+      rgba(236, 72, 153, 0)
+    ),
+    radial-gradient(
+      680px 240px at 80% 0%,
+      rgba(180, 83, 154, 0.12),
+      rgba(180, 83, 154, 0)
+    );
+  pointer-events: none;
+}
+
+.card > * {
+  position: relative;
 }
 
 .header {
@@ -75,7 +102,7 @@ body {
 
 .kicker {
   margin: 0 0 10px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   font-size: 12px;
   color: var(--muted);
@@ -87,6 +114,29 @@ body {
   font-weight: 600;
   font-size: clamp(34px, 6vw, 52px);
   letter-spacing: 0.01em;
+  color: rgba(17, 24, 39, 0.94);
+}
+
+.title::after {
+  content: "";
+  display: block;
+  width: 84px;
+  height: 1px;
+  margin: 14px auto 0;
+  background: linear-gradient(
+    90deg,
+    rgba(180, 83, 154, 0),
+    rgba(180, 83, 154, 0.6),
+    rgba(180, 83, 154, 0)
+  );
+}
+
+.subkicker {
+  margin: 12px 0 0;
+  font-family: Fraunces, ui-serif, Georgia, serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: rgba(17, 24, 39, 0.74);
 }
 
 .photo {
@@ -97,8 +147,9 @@ body {
   background-image: url("./assets/center-photo.jpg");
   background-size: cover;
   background-position: center;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  border: 6px solid rgba(255, 255, 255, 0.75);
+  outline: 1px solid rgba(17, 24, 39, 0.12);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
 }
 
 .details {
@@ -113,8 +164,8 @@ body {
   gap: 12px;
   padding: 12px 12px;
   border-radius: 14px;
-  background: rgba(0, 0, 0, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(17, 24, 39, 0.12);
 }
 
 .label {
@@ -143,17 +194,18 @@ body {
   justify-content: center;
   padding: 12px 18px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  color: rgba(17, 24, 39, 0.98);
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   font-weight: 600;
   text-decoration: none;
   min-width: 200px;
+  box-shadow: 0 14px 30px rgba(180, 83, 154, 0.22);
 }
 
 .button:hover {
   transform: translateY(-1px);
-  filter: brightness(1.04);
+  filter: brightness(1.03);
 }
 
 .button:active {
@@ -170,20 +222,21 @@ body {
 .hint code {
   font-size: 11px;
   padding: 2px 6px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(17, 24, 39, 0.16);
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.18);
-  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.6);
+  color: rgba(17, 24, 39, 0.9);
 }
 
 .footer {
   margin-top: 18px;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.78);
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
 @media (max-width: 520px) {
   .card {
-    padding: 18px;
+  padding: 20px;
   }
 
   .detail {
