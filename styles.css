@@ -42,6 +42,13 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   transform: scale(1.03);
+  transition: opacity 1.8s ease-in-out;
+}
+
+/* Fade to IMG_9503.JPG when RSVP is pressed */
+body.lights-boost .bg {
+  background-image: url("./assets/IMG_9503.webp");
+  opacity: 1;
 }
 
 .bg::after {
@@ -51,10 +58,10 @@ body {
   /* Soft overlay so photos still show through */
   background: radial-gradient(
       900px 600px at 50% 20%,
-      rgba(255, 255, 255, 0.55),
-      rgba(255, 255, 255, 0.08)
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.01)
     ),
-    linear-gradient(180deg, rgba(11, 16, 32, 0.18), rgba(11, 16, 32, 0.62));
+    linear-gradient(180deg, rgba(11, 16, 32, 0.28), rgba(11, 16, 32, 0.78));
 }
 
 .bg::before {
@@ -78,8 +85,8 @@ body {
     radial-gradient(8px 8px at 64% 88%, rgba(255, 62, 166, 0.20), rgba(255, 62, 166, 0) 66%),
     radial-gradient(12px 12px at 84% 80%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 66%);
   mix-blend-mode: screen;
-  opacity: 0.75;
-  filter: blur(0.2px);
+  opacity: 0.62;
+  filter: blur(0px);
   animation: bokeh-drift 10s ease-in-out infinite;
   pointer-events: none;
 }
@@ -136,6 +143,19 @@ body {
 
 .card > * {
   position: relative;
+}
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 140ms ease;
+}
+
+.confetti--active {
+  opacity: 1;
 }
 
 .string-lights {
@@ -246,6 +266,51 @@ body {
   box-shadow: 0 0 18px rgba(255, 62, 166, 0.65), 0 0 46px rgba(255, 62, 166, 0.32);
 }
 
+/* RSVP press effect: briefly boost the string light glow + jostle */
+body.lights-boost .string-lights .bulb {
+  filter: brightness(1.35) saturate(1.15);
+  animation: bulb-jostle 0.65s ease-out;
+}
+
+body.lights-boost .string-lights .bulb::after {
+  opacity: 0.9;
+}
+
+body.lights-boost .string-lights .wire {
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22), 0 0 28px rgba(255, 255, 255, 0.14);
+}
+
+@keyframes bulb-jostle {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(-6deg) translateY(-2px);
+  }
+  20% {
+    transform: rotate(5deg) translateY(-1px);
+  }
+  30% {
+    transform: rotate(-4deg) translateY(-2px);
+  }
+  40% {
+    transform: rotate(3deg) translateY(-1px);
+  }
+  50% {
+    transform: rotate(-2deg) translateY(0);
+  }
+  60% {
+    transform: rotate(1deg);
+  }
+  70% {
+    transform: rotate(-1deg);
+  }
+  80%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 .string-lights .bulb:nth-child(2n) {
   animation-duration: 3.3s;
   animation-delay: -0.8s;
@@ -336,6 +401,10 @@ body {
 
 .neon-pink {
   color: var(--neon-pink);
+}
+
+.neon-green {
+  color: var(--neon-green);
 }
 
 .neon-cyan {
@@ -479,6 +548,30 @@ body {
   align-self: center;
 }
 
+.value .link {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.value .link:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.55);
+}
+
+.value .addr {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.value .date-note {
+  display: inline;
+  margin-left: 8px;
+  font-size: 12px;
+  color: var(--muted2);
+  letter-spacing: 0.02em;
+  font-style: italic;
+}
+
 .cta {
   display: grid;
   justify-items: center;
@@ -493,14 +586,14 @@ body {
   justify-content: center;
   padding: 14px 22px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  background: linear-gradient(135deg, #16a34a, #22c55e);
   color: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.28);
   font-weight: 600;
   text-decoration: none;
   min-width: 240px;
   letter-spacing: 0.02em;
-  box-shadow: 0 14px 30px rgba(180, 83, 154, 0.22);
+  box-shadow: 0 14px 30px rgba(34, 197, 94, 0.22);
 }
 
 .button:hover {

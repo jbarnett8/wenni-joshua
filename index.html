@@ -47,7 +47,7 @@
             <span class="neon neon-white">&amp;</span>
             <span class="neon neon-cyan">Joshua</span>
           </h1>
-          <p class="kicker">Come celebrate with us</p>
+          <p class="kicker">Come celebrate with us!</p>
         </header>
 
         <div class="photo" role="img" aria-label="Couple photo"></div>
@@ -55,35 +55,47 @@
         <div class="details">
           <div class="detail">
             <div class="label">When</div>
-            <div class="value">January 23, 2026 &middot; 1:00 pm</div>
+            <div class="value">
+              January 23, 2026 &middot; 1:00 pm
+              <span class="date-note">123!</span>
+            </div>
           </div>
 
           <div class="detail">
             <div class="label">Where</div>
-            <div class="value">Subpar Alameda</div>
+            <div class="value">
+              <a
+                class="link"
+                href="https://maps.app.goo.gl/FjfjXLEXpkHLfiUr8"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Subpar Mini Golf (Alameda)
+              </a>
+              <span class="addr">&middot; 1600 Park St, Alameda, CA 94501</span>
+            </div>
           </div>
 
           <div class="detail">
             <div class="label">Attire</div>
-            <div class="value">Casual</div>
+            <div class="value">Casual, Casual, Casual</div>
           </div>
 
           <div class="detail">
             <div class="label">What to expect</div>
-            <div class="value">Food and fun will be provided.</div>
+            <div class="value">Food and fun will be provided. No gifts, please.</div>
           </div>
         </div>
 
         <div class="cta">
           <a
             class="button"
-            href="https://forms.gle/REPLACE_WITH_YOUR_FORM"
-            target="_blank"
-            rel="noopener noreferrer"
+            id="rsvpButton"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfo8KIlaIDU-vizCTsQriL0zb_AlV_pV6yBxlAe6BrPndU9JA/viewform?usp=header"
           >
             RSVP
           </a>
-        </div>
+        </div>    <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
 
         <div class="string-lights string-lights--bottom" aria-hidden="true">
           <span class="wire"></span>
@@ -100,9 +112,128 @@
         </div>
       </section>
 
-      <footer class="footer">
-        <small>We can’t wait to celebrate with you.</small>
-      </footer>
     </main>
+
+    <script>
+      (() => {
+        const btn = document.getElementById("rsvpButton");
+        const canvas = document.getElementById("confetti");
+        if (!btn || !canvas) return;
+
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        /** Tiny confetti burst with no deps.
+         *  - Plays a short burst, then we navigate to the RSVP URL.
+         *  - If reduced motion is enabled, we skip animation.
+         */
+        function burstConfettiFromSides() {
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return;
+
+          const W = window.innerWidth;
+          const H = window.innerHeight;
+          
+          // Set canvas to match window size at device pixel ratio
+          const dpr = Math.max(1, window.devicePixelRatio || 1);
+          canvas.width = W * dpr;
+          canvas.height = H * dpr;
+          canvas.style.width = W + "px";
+          canvas.style.height = H + "px";
+          // Scale context so we can draw in CSS pixel coordinates
+          ctx.scale(dpr, dpr);
+
+          const colors = [
+            "#ff3ea6", // pink
+            "#22d3ee", // cyan
+            "#facc15", // yellow
+            "#22c55e", // green
+            "#ffffff",
+          ];
+
+          const pieces = Array.from({ length: 160 }, () => {
+            // Spawn from random position across the top
+            const x = Math.random() * W;
+            const y = -20 - Math.random() * 30;
+
+            // Spread out horizontally and fall downward
+            const vx = (Math.random() - 0.5) * 8;
+            const vy = 2 + Math.random() * 4;
+            
+            return {
+              x,
+              y,
+              vx,
+              vy,
+              g: 0.18 + Math.random() * 0.12,
+              size: 4 + Math.random() * 5,
+              rot: Math.random() * Math.PI,
+              vr: (Math.random() - 0.5) * 0.3,
+              color: colors[(Math.random() * colors.length) | 0],
+              life: 80 + ((Math.random() * 40) | 0),
+            };
+          });          canvas.classList.add("confetti--active");
+          let raf = 0;
+
+          const tick = () => {
+            ctx.clearRect(0, 0, W, H);
+            for (const p of pieces) {
+              if (p.life <= 0) continue;
+              p.life -= 1;
+              p.vy += p.g;
+              p.x += p.vx;
+              p.y += p.vy;
+              p.rot += p.vr;
+
+              ctx.save();
+              ctx.translate(p.x, p.y);
+              ctx.rotate(p.rot);
+              ctx.fillStyle = p.color;
+              ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+              ctx.restore();
+            }
+
+            const alive = pieces.some((p) => p.life > 0 && p.y < H + 40);
+            if (alive) {
+              raf = requestAnimationFrame(tick);
+            } else {
+              canvas.classList.remove("confetti--active");
+              ctx.clearRect(0, 0, W, H);
+            }
+          };
+
+          raf = requestAnimationFrame(tick);
+
+          window.setTimeout(() => {
+            cancelAnimationFrame(raf);
+            canvas.classList.remove("confetti--active");
+            ctx.clearRect(0, 0, W, H);
+          }, 1400);
+        }
+
+        btn.addEventListener("click", (e) => {
+          const url = btn.href;
+          const target = btn.target || "_self";
+          if (!url) return;
+
+          // We'll handle navigation after a short animation.
+          e.preventDefault();
+
+          document.body.classList.add("lights-boost");
+          window.setTimeout(() => document.body.classList.remove("lights-boost"), 1800);
+
+          if (!prefersReducedMotion) burstConfettiFromSides();
+
+          window.setTimeout(() => {
+            if (target === "_blank") {
+              window.open(url, "_blank", "noopener,noreferrer");
+            } else {
+              window.location.assign(url);
+            }
+          }, prefersReducedMotion ? 0 : 1800);
+        });
+      })();
+    </script>
   </body>
 </html>
