@@ -572,6 +572,56 @@ body.lights-boost .string-lights .wire {
   font-style: italic;
 }
 
+.value .expect-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.value .expect-list li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 6px;
+}
+
+.value .expect-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--pink);
+}
+
+.value .expect-note {
+  margin-top: 6px;
+  margin-left: 16px;
+  font-size: 12px;
+  color: var(--muted2);
+  letter-spacing: 0.02em;
+  font-style: italic;
+}
+
+.value .schedule-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.value .schedule-list li {
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 4px;
+}
+
+.value .schedule-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--pink);
+}
+
 .cta {
   display: grid;
   justify-items: center;
